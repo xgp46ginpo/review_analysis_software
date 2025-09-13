@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>评论分析系统</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40NzcgMiAyIDYuNDc3IDIgMTJDMiAxNy41MjMgNi40NzcgMjIgMTIgMjJDMTcuNTIzIDIyIDIyIDE3LjUyMyAyMiAxMkMyMiA2LjQ3NyAxNy41MjMgMiAxMiAyWk0xMiA0QzE2LjQxOCA0IDIwIDcuNTgyIDIwIDEyQzIwIDE2LjQxOCAxNi40MTggMjAgMTIgMjBDNy41ODIgMjAgNCAxNi40MTggNCAxMkM0IDcuNTgyIDcuNTgyIDQgMTIgNFpNMTIgN0ExIDEgMCAwIDEgMTMgOEwxMyAxM0ExIDEgMCAwIDEgMTIgMTRBMSAxIDAgMCAxIDExIDEzTExgOEExIDEgMCAwIDEgMTIgN1oiIGZpbGw9ImN1cnJlbnRDb2xvciIvPgo8L3N2Zz4=" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script> <!-- Flatpickr 中文语言包 -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script> <!-- Moment.js 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0/dist/chartjs-adapter-moment.min.js"></script> <!-- Chart.js Moment 适配器 -->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script> <!-- PapaParse CSV 解析库 -->
+</head>
+<body>
+    <div class="container">
+        <h1>Coupang 评论分析系统 v1.1</h1>
+        
+        <div class="file-upload">
+            <input type="file" id="csvFileInput" accept=".csv" multiple>
+            <button id="csvUploadBtn" class="upload-btn">选择CSV文件</button>
+        </div>
+        
+        <div class="filters">
+                <div class="filter-group">
+                    <label for="productId">产品ID:</label>
+                    <input type="text" id="productId" placeholder="输入产品ID筛选">
+                </div>
+                <div class="filter-group">
+                    <input type="checkbox" id="topReviewsOnly" style="margin-right: 5px;">
+                    <label for="topReviewsOnly">只显示TOP评论</label>
+                </div>
+                <div class="filter-group">
+                <label for="dateRange">日期范围:</label>
+                <input type="text" id="dateRange" class="date-picker" placeholder="选择日期范围">
+                <div class="quick-date-filters">
+                    <button data-days="3">近3天</button>
+                    <button data-days="7">近7天</button>
+                    <button data-days="15">近15天</button>
+                    <button data-days="30">近30天</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-wrapper">
+                <h3>每日新增评论趋势</h3>
+                <canvas id="newReviewsTrendChart"></canvas>
+            </div>
+            <div class="chart-wrapper">
+                <h3>每日评论总数趋势 (快照)</h3>
+                <canvas id="totalReviewsSnapshotChart"></canvas>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="product-summary-section">
+                <h2>产品评论汇总</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>产品ID</th>
+                            <th>评论总数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 表格内容将由 JavaScript 填充 -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="reviews-section">
+                <div class="reviews-header">
+                    <h2>评论详情</h2>
+                    <span id="review-count-display"></span>
+                </div>
+                <div class="reviews-container">
+                    <!-- 评论内容将由 JavaScript 填充 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="instruction-tooltip" class="instruction-tooltip">
+        <h2>使用说明</h2>
+        <p>1. 选择日期范围或点击快速筛选按钮，查看评论趋势和详情。</p>
+        <p>2. 输入产品ID可筛选特定产品评论。</p>
+        <p>3. 评论按日期倒序排列，最新评论在前。</p>
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
