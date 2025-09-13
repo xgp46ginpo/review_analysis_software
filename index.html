@@ -11,192 +11,114 @@
     <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40NzcgMiAyIDYuNDc3IDIgMTJDMiAxNy41MjMgNi40NzcgMjIgMTIgMjJDMTcuNTIzIDIyIDIyIDE3LjUyMyAyMiAxMkMyMiA2LjQ3NyAxNy41MjMgMiAxMiAyWk0xMiA0QzE2LjQxOCA0IDIwIDcuNTgyIDIwIDEyQzIwIDE2LjQxOCAxNi40MTggMjAgMTIgMjBDNy41ODIgMjAgNCAxNi40MTggNCAxMkM0IDcuNTgyIDcuNTgyIDQgMTIgNFpNMTIgN0ExIDEgMCAwIDEgMTMgOEwxMyAxM0ExIDEgMCAwIDEgMTIgMTRBMSAxIDAgMCAxIDExIDEzTExgOEExIDEgMCAwIDEgMTIgN1oiIGZpbGw9ImN1cnJlbnRDb2xvciIvPgo8L3N2Zz4=" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
     <style>
-.file-upload {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.file-upload input[type="file"] {
-    display: none;
-}
-
-.upload-btn {
-    background-color: #28a745;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.upload-btn:hover {
-    background-color: #218838;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-.upload-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.hidden {
-    display: none !important;
-}
-
-#initial-state {
-    text-align: center;
-    padding: 60px 20px;
-    border: 2px dashed #ced4da;
-    border-radius: 12px;
-    margin-top: 40px;
-    color: #6c757d;
-}
-
-#initial-state h2 {
-    color: #343a40;
-}
-
+/* 基础样式 */
 body {
-    font-family: 'Pretendard Variable', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f4f7f9;
+    color: #333;
     margin: 0;
-    padding: 0; /* 移除 body 默认 padding，让 container 控制 */
-    background-color: #f0f2f5; /* 更柔和的背景色 */
-    color: #343a40; /* 深灰色文本 */
+    padding: 20px;
     line-height: 1.6;
-    display: flex; /* 使用 flex 布局居中内容 */
-    justify-content: center;
-    align-items: flex-start; /* 顶部对齐 */
-    min-height: 100vh; /* 最小高度为视口高度 */
-    padding: 20px; /* 整体 padding */
-    box-sizing: border-box; /* 盒模型 */
 }
 
 .container {
-    width: 100%; /* 宽度自适应 */
-    max-width: 1400px; /* 保持最大宽度 */
-    margin: 0 auto; /* 自动居中 */
-    background-color: #ffffff;
-    padding: 30px 40px; /* 增加左右内边距 */
-    border-radius: 16px; /* 更大的圆角 */
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* 更明显的阴影 */
-    box-sizing: border-box;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+h1, h2, h3 {
+    color: #1a2533;
+    margin-top: 0;
 }
 
 h1 {
     text-align: center;
-    color: #1a202c; /* 更深的标题颜色 */
-    margin-bottom: 35px; /* 增加底部间距 */
-    font-size: 2.5em; /* 增大标题字号 */
-    font-weight: 700; /* 更粗的字体 */
-    letter-spacing: -0.03em; /* 调整字间距 */
-    background: linear-gradient(90deg, #007bff, #0056b3); /* 渐变背景 */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    margin-bottom: 25px;
+    font-size: 2em;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 15px;
 }
 
+/* 文件上传区域 */
+.file-upload {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.upload-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.upload-btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#csvFileInput {
+    display: none;
+}
+
+/* 初始状态提示 */
+#initial-state {
+    text-align: center;
+    padding: 40px;
+    background-color: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+}
+
+/* 主应用内容区域 */
+.hidden {
+    display: none;
+}
+
+/* 筛选器 */
 .filters {
-    position: sticky; /* 设置为粘性定位 */
-    top: 0; /* 滚动到顶部时固定 */
-    z-index: 999; /* 确保它在其他内容之上 */
-    background-color: #ffffff; /* 添加背景色以防下方内容透出 */
-    margin-bottom: 40px;
     display: flex;
     flex-wrap: wrap;
-    gap: 25px; /* 增加间距 */
+    gap: 20px;
     align-items: center;
-    justify-content: center;
-    padding: 20px 25px; /* 增加内边距 */
-    background: #fdfdfd; /* 更亮的背景 */
-    border-radius: 12px; /* 更大的圆角 */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* 更明显的阴影 */
-    border: 1px solid #e0e0e0; /* 细边框 */
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
 .filter-group {
     display: flex;
-    flex-direction: column; /* 标签和输入框垂直排列 */
-    align-items: flex-start; /* 左对齐 */
-    gap: 8px; /* 标签和输入框之间的间距 */
-    background: none; /* 移除背景 */
-    padding: 0; /* 移除内边距 */
-    border-radius: 0; /* 移除圆角 */
-    border: none; /* 移除边框 */
+    align-items: center;
+    gap: 8px;
 }
 
 .filter-group label {
-    font-weight: 600; /* 更粗的字体 */
-    color: #495057;
-    white-space: nowrap;
-    font-size: 0.95em; /* 稍微增大字号 */
-    margin-bottom: 2px; /* 标签和输入框之间的额外间距 */
-}
-
-.date-picker, #productId {
-    padding: 10px 15px; /* 增加内边距 */
-    border: 1px solid #ced4da;
-    border-radius: 8px; /* 更大的圆角 */
-    font-size: 15px; /* 增大字号 */
-    min-width: 250px; /* 增加最小宽度 */
-    transition: border-color 0.2s, box-shadow 0.2s;
-    background-color: #f8f9fa; /* 浅灰色背景 */
-    color: #343a40;
-}
-
-.date-picker:focus, #productId:focus {
-    outline: none;
-    border-color: #007bff; /* 蓝色边框 */
-    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* 蓝色阴影 */
-    background-color: #ffffff; /* 聚焦时白色背景 */
-}
-
-.quick-date-filters {
-    display: flex;
-    gap: 10px; /* 按钮之间的间距 */
-    margin-top: 10px; /* 与日期选择器上方的间距 */
-}
-
-.quick-date-filters button {
-    background-color: #6c757d; /* 灰色按钮 */
-    color: white;
-    border: none;
-    padding: 8px 15px; /* 调整内边距 */
-    border-radius: 6px; /* 调整圆角 */
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
     font-weight: 500;
-    font-size: 0.9em;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.quick-date-filters button:hover {
-    background-color: #5a6268; /* 深灰色 */
-    transform: translateY(-1px); /* 轻微上浮效果 */
+.filter-group input[type="text"], .filter-group .date-picker {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 0.95em;
 }
 
-.quick-date-filters button:active {
-    background-color: #4e545a; /* 点击时更深的颜色 */
-    transform: translateY(0); /* 恢复位置 */
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* 更小的阴影 */
-}
-
-.quick-date-filters button.active {
-    background-color: #007bff;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
-    transform: translateY(-1px);
-}
-
-/* 开关样式 */
+/* TOP 评论开关 */
 .switch {
     position: relative;
     display: inline-block;
-    width: 50px;
-    height: 28px;
+    width: 44px;
+    height: 24px;
 }
 
 .switch input {
@@ -214,193 +136,133 @@ h1 {
     bottom: 0;
     background-color: #ccc;
     transition: .4s;
-    border-radius: 28px;
+    border-radius: 24px;
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 4px;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
     background-color: white;
     transition: .4s;
     border-radius: 50%;
 }
 
 input:checked + .slider {
-    background-color: #007bff;
-}
-
-input:focus + .slider {
-    box-shadow: 0 0 1px #007bff;
+    background-color: #28a745;
 }
 
 input:checked + .slider:before {
-    transform: translateX(22px);
+    transform: translateX(20px);
 }
 
-/* 移除旧的 button 样式，因为 quick-date-filters 按钮有自己的样式 */
-/* 统一使用 quick-date-filters button 的样式，或根据需要定义通用按钮样式 */
-/* 如果需要其他通用按钮，可以定义一个 .btn 类 */
-
-.filters label {
-    font-weight: bold;
-}
-
-/* 移除 .filters select 样式，因为目前没有 select 元素 */
-
-/* 错误消息样式 */
-.error-message {
-    color: #dc3545; /* 红色 */
-    background-color: #f8d7da; /* 浅红色背景 */
-    border: 1px solid #f5c6cb;
-    border-radius: 8px;
-    padding: 15px 20px;
-    margin-top: 20px;
-    font-size: 1.1em;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-
+/* 图表容器 */
 .chart-container {
-    display: flex; /* 使用 Flexbox 布局 */
-    gap: 25px; /* 图表之间的间距 */
-    margin-bottom: 40px;
-    padding: 25px;
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
 }
 
 .chart-wrapper {
-    flex: 1;
-    position: relative; /* 为 Chart.js 提供定位上下文 */
-    height: 450px; /* 为图表设置一个固定的高度 */
+    padding: 15px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    height: 350px; /* 固定高度 */
 }
 
-canvas {
-    max-width: 100%;
-    /* 移除 height: auto !important; 以避免与 Chart.js 冲突 */
-}
-
+/* 主内容区域 */
 .main-content {
-    display: flex;
-    gap: 30px; /* 增加间距 */
-    margin-top: 30px;
-    /* 移除 main-content 自身的边框、内边距、背景和阴影，由其子元素控制 */
-    flex-wrap: wrap;
-    justify-content: center; /* 居中内容 */
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
 }
 
-@media (max-width: 1024px) { /* 调整媒体查询断点 */
-    .main-content {
-        flex-direction: column;
-        align-items: center; /* 居中列布局内容 */
-    }
-    
-    .main-content .product-summary-section, /* 针对产品汇总部分 */
-    .reviews-container {
-        min-width: unset; /* 移除最小宽度限制 */
-        width: 100%; /* 占据全部宽度 */
-        max-width: 700px; /* 设置最大宽度，防止过宽 */
-    }
-    
-    .filter-group {
-        flex: 1 1 100%;
-    }
-    
-    .date-picker, #productId {
-        width: 100%;
-    }
-}
-
-/* 页脚样式 */
-.footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px;
-    color: #6c757d;
-    font-size: 0.9em;
-    border-top: 1px solid #e9ecef;
-    background-color: #f8f9fa;
-    border-radius: 0 0 16px 16px; /* 与 container 底部圆角匹配 */
-}
-
-.main-content table {
-    flex: 1; /* 表格占据 1/3 比例 */
-    min-width: 450px; /* 调整最小宽度 */
-    width: 100%; /* 确保在 flex 容器中正确显示 */
+/* 产品汇总 */
+.product-summary-section table {
+    width: 100%;
     border-collapse: collapse;
-    border-radius: 12px; /* 更大的圆角 */
-    overflow: hidden; /* 确保圆角生效 */
-    background-color: #ffffff;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* 添加阴影 */
-    border: 1px solid #e0e0e0; /* 细边框 */
 }
 
-.main-content table th, .main-content table td {
-    border: 1px solid #f0f0f0; /* 更浅的边框 */
-    padding: 15px 20px; /* 增加内边距 */
+.product-summary-section th, .product-summary-section td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
     text-align: left;
 }
 
-.main-content table th {
-    background-color: #007bff; /* 蓝色背景 */
-    color: white;
-    font-weight: 600; /* 更粗的字体 */
-    text-transform: uppercase; /* 大写 */
-    font-size: 0.9em;
+.product-summary-section th {
+    background-color: #f8f9fa;
 }
 
-.main-content table tr:nth-child(even) {
-    background-color: #f8f9fa; /* 浅灰色条纹 */
+.product-summary-section tbody tr {
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.main-content table tr:hover {
-    background-color: #e9ecef; /* 悬停背景色 */
-    cursor: pointer; /* 鼠标指针 */
+.product-summary-section tbody tr:hover {
+    background-color: #e9ecef;
 }
 
-.main-content table tr.selected {
+.product-summary-section tbody tr.selected {
     background-color: #007bff;
     color: white;
     font-weight: bold;
 }
 
-.main-content table tr.selected:hover {
-    background-color: #0056b3;
+/* 评论详情 */
+.reviews-section {
+    display: flex;
+    flex-direction: column;
 }
 
-.reviews-container {
-    flex: 2; /* 评论详情占据 2/3 比例 */
-    min-width: 600px; /* 调整最小宽度 */
-    padding: 30px; /* 增加内边距 */
-    border: 1px solid #e0e0e0; /* 细边框 */
-    border-radius: 12px; /* 更大的圆角 */
-    overflow-y: auto; /* 允许评论详情滚动 */
-    max-height: 700px; /* 增加最大高度 */
-    background-color: #ffffff;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* 添加阴影 */
-}
-
-.review-item {
-    border-bottom: 1px solid #e9ecef; /* 更浅的分割线 */
-    padding: 20px 0; /* 增加内边距 */
-}
-
-.review-item:last-child {
-    border-bottom: none;
-}
-
-.review-author-info {
+.reviews-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+#filter-status-display button {
+    margin-left: 8px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.reviews-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 600px;
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.review-item {
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.review-author-info, .review-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #6c757d;
     font-size: 0.9em;
 }
 
@@ -410,129 +272,42 @@ canvas {
 }
 
 .top-reviewer-badge {
-    background-color: #17a2b8;
-    color: white;
-    font-size: 0.75em;
+    background-color: #ffc107;
+    color: #333;
     padding: 2px 6px;
-    border-radius: 4px;
-    margin-left: 8px;
-    vertical-align: middle;
-    font-weight: bold;
-}
-
-.review-date {
-    color: #6c757d;
+    border-radius: 3px;
+    font-size: 0.8em;
+    margin-left: 5px;
 }
 
 .review-product-info {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    padding: 10px 15px;
-    margin-bottom: 12px;
     font-size: 0.9em;
-}
-
-.review-product-info p {
-    margin: 0;
-    line-height: 1.5;
+    color: #495057;
+    background-color: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+    margin: 8px 0;
 }
 
 .review-rating {
     color: #ffc107;
     font-size: 1.2em;
-    margin-bottom: 12px;
-}
-
-.review-content {
-    margin: 15px 0;
-    font-size: 0.95em;
-    color: #495057;
-    line-height: 1.7;
-    white-space: pre-wrap; /* 保留换行符 */
-}
-
-.review-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9em;
-    color: #6c757d;
-    margin-top: 15px;
-    border-top: 1px solid #e9ecef;
-    padding-top: 10px;
-}
-
-.review-id {
-    font-family: monospace;
-}
-
-.helpful-count {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.review-attachments {
-    margin-top: 15px; /* 增加与评论内容的间距 */
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* 图片之间的间距 */
+    margin: 5px 0;
 }
 
 .review-attachments img {
-    max-width: 120px; /* 增大图片尺寸 */
-    height: auto;
-    border-radius: 8px; /* 圆角图片 */
-    border: 1px solid #e0e0e0; /* 图片边框 */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* 图片阴影 */
-    transition: transform 0.2s ease-in-out;
+    max-width: 100px;
+    max-height: 100px;
+    margin-right: 5px;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
 }
 
-.review-attachments img:hover {
-    transform: scale(1.05); /* 悬停放大效果 */
+.review-content {
+    margin: 10px 0;
 }
 
-.instruction-tooltip {
-    position: fixed;
-    bottom: 25px; /* 调整位置 */
-    right: 25px; /* 放置在右下角 */
-    left: auto; /* 移除左侧定位 */
-    background-color: #2c3e50; /* 深色背景 */
-    color: white;
-    padding: 20px; /* 增加内边距 */
-    border-radius: 10px; /* 调整圆角 */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); /* 更明显的阴影 */
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px); /* 初始向下偏移 */
-    transition: opacity 0.4s ease-out, visibility 0.4s ease-out, transform 0.4s ease-out;
-    max-width: 350px; /* 调整最大宽度 */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* 细边框 */
-}
-
-.instruction-tooltip.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0); /* 向上移动到最终位置 */
-}
-
-.instruction-tooltip h2 {
-    color: #007bff; /* 蓝色标题 */
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.3em; /* 增大字号 */
-    font-weight: 600;
-}
-
-.instruction-tooltip p {
-    font-size: 0.95em; /* 调整字号 */
-    line-height: 1.5;
-    margin-bottom: 8px;
-}
-
-/* 加载指示器样式 */
+/* 加载覆盖层 */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -541,12 +316,13 @@ canvas {
     height: 100%;
     background-color: rgba(255, 255, 255, 0.8);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 1001;
+    z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    transition: opacity 0.3s, visibility 0.3s;
 }
 
 .loading-overlay.show {
@@ -555,12 +331,18 @@ canvas {
 }
 
 .spinner {
-    border: 6px solid #f3f3f3; /* Light grey */
-    border-top: 6px solid #007bff; /* Blue */
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #007bff;
     border-radius: 50%;
     width: 50px;
     height: 50px;
     animation: spin 1s linear infinite;
+}
+
+#loading-text {
+    margin-top: 15px;
+    font-size: 1.1em;
+    color: #333;
 }
 
 @keyframes spin {
@@ -568,72 +350,15 @@ canvas {
     100% { transform: rotate(360deg); }
 }
 
-.reviews-section {
-    flex: 2;
-    min-width: 600px;
-    display: flex;
-    flex-direction: column;
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    overflow: hidden; /* 确保子元素不会溢出圆角 */
-}
-
-.reviews-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 30px;
-    border-bottom: 1px solid #e9ecef;
-    background-color: #f8f9fa;
-}
-
-.reviews-header h2 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #343a40;
-}
-
-#review-count-display {
-    font-size: 1.1em;
-    font-weight: 600;
-    color: #007bff;
-    background-color: rgba(0, 123, 255, 0.1);
-    padding: 5px 12px;
-    border-radius: 6px;
-}
-
-#filter-status-display {
-    font-size: 0.7em;
-    font-weight: normal;
-    color: #6c757d;
-    background-color: #e9ecef;
-    padding: 4px 8px;
-    border-radius: 4px;
-    margin-left: 10px;
-}
-
-#filter-status-display button {
-    background: none;
-    border: none;
-    color: #dc3545;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-.reviews-container {
-    padding: 0 30px 30px 30px; /* 调整内边距 */
-    overflow-y: auto;
-    max-height: 640px; /* 调整最大高度 */
-    flex-grow: 1;
-    /* 移除之前的样式，因为它们被移到了 .reviews-section */
-    border: none;
-    box-shadow: none;
-    background-color: transparent;
-    min-width: unset;
-    flex: unset;
+/* 构建时间戳水印 */
+#build-timestamp {
+    position: fixed;
+    bottom: 5px;
+    right: 10px;
+    font-size: 12px;
+    color: #aaa;
+    opacity: 0.7;
+    z-index: 1001;
 }
 
 </style>
@@ -1220,5 +945,7 @@ function debounce(func, timeout = 300) {
 }
 
 </script>
+
+    <footer id="build-timestamp">Last updated on Sat, 13 Sep 2025 07:27:03 GMT</footer>
 </body>
 </html>
