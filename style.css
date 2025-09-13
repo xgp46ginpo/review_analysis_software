@@ -31,6 +31,23 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.hidden {
+    display: none !important;
+}
+
+#initial-state {
+    text-align: center;
+    padding: 60px 20px;
+    border: 2px dashed #ced4da;
+    border-radius: 12px;
+    margin-top: 40px;
+    color: #6c757d;
+}
+
+#initial-state h2 {
+    color: #343a40;
+}
+
 body {
     font-family: 'Pretendard Variable', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -74,7 +91,7 @@ h1 {
     top: 0; /* 滚动到顶部时固定 */
     z-index: 999; /* 确保它在其他内容之上 */
     background-color: #ffffff; /* 添加背景色以防下方内容透出 */
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     display: flex;
     flex-wrap: wrap;
     gap: 25px; /* 增加间距 */
@@ -154,6 +171,63 @@ h1 {
     box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* 更小的阴影 */
 }
 
+.quick-date-filters button.active {
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+/* 开关样式 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 28px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #007bff;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #007bff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
 /* 移除旧的 button 样式，因为 quick-date-filters 按钮有自己的样式 */
 /* 统一使用 quick-date-filters button 的样式，或根据需要定义通用按钮样式 */
 /* 如果需要其他通用按钮，可以定义一个 .btn 类 */
@@ -181,7 +255,7 @@ h1 {
 .chart-container {
     display: flex; /* 使用 Flexbox 布局 */
     gap: 25px; /* 图表之间的间距 */
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     padding: 25px;
     background: white;
     border: 1px solid #e0e0e0;
@@ -276,6 +350,16 @@ canvas {
 .main-content table tr:hover {
     background-color: #e9ecef; /* 悬停背景色 */
     cursor: pointer; /* 鼠标指针 */
+}
+
+.main-content table tr.selected {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.main-content table tr.selected:hover {
+    background-color: #0056b3;
 }
 
 .reviews-container {
@@ -505,6 +589,25 @@ canvas {
     background-color: rgba(0, 123, 255, 0.1);
     padding: 5px 12px;
     border-radius: 6px;
+}
+
+#filter-status-display {
+    font-size: 0.7em;
+    font-weight: normal;
+    color: #6c757d;
+    background-color: #e9ecef;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+#filter-status-display button {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 5px;
 }
 
 .reviews-container {

@@ -11,12 +11,14 @@ const mainContent = document.querySelector('.main-content');
 const productIdInput = document.getElementById('productId');
 const topReviewsOnlyCheckbox = document.getElementById('topReviewsOnly');
 const dateRangeInput = document.getElementById('dateRange');
-const quickDateButtons = document.querySelectorAll('.quick-date-filters button');
 const productSummaryTableBody = document.querySelector('.product-summary-section table tbody');
 const reviewsContainer = document.querySelector('.reviews-container');
 const instructionTooltip = document.getElementById('instruction-tooltip');
 const reviewCountDisplay = document.getElementById('review-count-display');
+const filterStatusDisplay = document.getElementById('filter-status-display');
 const csvFileInput = document.getElementById('csvFileInput');
+const initialStateDiv = document.getElementById('initial-state');
+const mainAppContentDiv = document.getElementById('main-app-content');
 
 // 显示加载指示器
 function showLoading() {
@@ -134,6 +136,10 @@ async function handleFileSelect(event) {
         
         renderPage();
 
+        // 显示主应用内容，隐藏初始状态
+        if (initialStateDiv) initialStateDiv.classList.add('hidden');
+        if (mainAppContentDiv) mainAppContentDiv.classList.remove('hidden');
+
     } catch (error) {
         console.error('文件处理失败:', error);
         if (mainContent) {
@@ -180,62 +186,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
     productIdInput.addEventListener('input', debounce(renderPage, 300));
     topReviewsOnlyCheckbox.addEventListener('change', renderPage);
-    quickDateButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            console.log(`[调试] 点击了快速日期按钮: ${button.textContent}`);
-            if (allData.length === 0 && snapshotData.length === 0) {
-                console.warn('[调试] 无可用数据，无法设置日期范围。');
-                return;
-            }
-
-            const allDates = [
-                ...allData.map(item => new Date(item.date)),
-                ...snapshotData.map(item => new Date(item.date))
-            ].filter(date => !isNaN(date.getTime()));
-
-            if (allDates.length === 0) {
-                console.warn('[调试] 数据中无有效日期，无法设置日期范围。');
-                return;
-            }
-
-            const maxDate = new Date(Math.max(...allDates));
-            const maxMoment = moment(maxDate);
-            console.log(`[调试] 数据中的最大日期为: ${maxMoment.format('YYYY-MM-DD')}`);
-
-            const days = parseInt(button.dataset.days);
-            const endDate = maxMoment.clone().endOf('day');
-            const startDate = maxMoment.clone().subtract(days - 1, 'days').startOf('day');
-            
-            console.log(`[调试] 计算出的日期范围: ${startDate.format('YYYY-MM-DD')} 至 ${endDate.format('YYYY-MM-DD')}`);
-
-            // 设置日期并确保触发 onChange 事件来调用 renderPage()
-            flatpickrInstance.setDate([startDate.toDate(), endDate.toDate()], true);
-        });
-    });
 });
 
 // 初始化图表
-function initializeChart(canvasId, chartInstanceVar) {
+function initializeChart(canvasId, onClickHandler) {
     const ctx = document.getElementById(canvasId).getContext('2d');
-    return new Chart(ctx, {
-        type: 'line',
-        data: { labels: [], datasets: [
-            { label: '每日总评论数', data: [], borderColor: '#007bff', fill: false },
-            { label: '每日TOP评论数', data: [], borderColor: '#28a745', fill: false }
-        ]},
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: { type: 'time', time: { unit: 'day' } },
-                y: { beginAtZero: true }
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: { 
+                type: 'time', 
+                time: { 
+                    unit: 'day',
+                    tooltipFormat: 'YYYY-MM-DD',
+                    displayFormats: {
+                        day: 'MMM D',
+                        week: 'MMM D',
+                        month: 'YYYY MMM'
+                    }
+                },
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 15 
+                }
+            },
+            y: { 
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1, // 确保Y轴刻度为整数
+                    callback: function(value) {
+                        if (Math.floor(value) === value) {
+                            return value;
+                        }
+                    }
+                }
+            }
+        },
+        plugins: {
+            tooltip: {
+                mode: 'index',
+                intersect: false,
             }
         }
+    };
+
+    if (onClickHandler) {
+        chartOptions.onClick = onClickHandler;
+    }
+
+    return new Chart(ctx, {
+        type: 'line',
+        data: { 
+            labels: [], 
+            datasets: [
+                { label: '每日总评论数', data: [], borderColor: '#007bff', fill: false, tension: 0.1 },
+                { label: '每日TOP评论数', data: [], borderColor: '#28a745', fill: false, tension: 0.1 }
+            ]
+        },
+        options: chartOptions
     });
 }
 
 function initializeNewReviewsChart() {
-    newReviewsTrendChart = initializeChart('newReviewsTrendChart');
+    newReviewsTrendChart = initializeChart('newReviewsTrendChart', (event) => {
+        const points = newReviewsTrendChart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
+        if (points.length) {
+            const firstPoint = points[0];
+            const label = newReviewsTrendChart.data.labels[firstPoint.index];
+            const clickedDate = moment(label);
+            
+            // 筛选并只显示那一天的评论
+            filterAndDisplayReviewsForDate(clickedDate);
+        }
+    });
 }
 
 function initializeSnapshotChart() {
@@ -285,6 +309,9 @@ function renderPage() {
         updateProductSummaryTable(filteredNewReviewsData);
         updateDetailedReviews(reviewsToRender);
 
+        // 清除特定日期筛选状态
+        filterStatusDisplay.innerHTML = '';
+
     } catch (error) {
         console.error('Error in renderPage:', error);
     } finally {
@@ -292,8 +319,20 @@ function renderPage() {
     }
 }
 
+// 根据日期范围获取最佳的图表时间单位
+function getChartTimeUnit(startDate, endDate) {
+    const diffDays = endDate.diff(startDate, 'days');
+    if (diffDays > 90) return 'month';
+    if (diffDays > 30) return 'week';
+    return 'day';
+}
+
 // 更新图表
 function updateChart(chart, data, dateRange, totalKey, topKey) {
+    // 动态调整时间单位
+    const timeUnit = getChartTimeUnit(dateRange.startDate, dateRange.endDate);
+    chart.options.scales.x.time.unit = timeUnit;
+
     const dailyCounts = {};
     for (let m = dateRange.startDate.clone(); m.isSameOrBefore(dateRange.endDate, 'day'); m.add(1, 'days')) {
         const dateKey = m.format('YYYY-MM-DD');
@@ -340,7 +379,65 @@ function updateProductSummaryTable(items) {
         return acc;
     }, {});
     const sortedProducts = Object.entries(productCounts).sort(([, a], [, b]) => b - a);
-    productSummaryTableBody.innerHTML = sortedProducts.length ? sortedProducts.map(([id, count]) => `<tr><td>${id}</td><td>${count}</td></tr>`).join('') : '<tr><td colspan="2">无数据</td></tr>';
+    
+    productSummaryTableBody.innerHTML = sortedProducts.length 
+        ? sortedProducts.map(([id, count]) => `<tr data-product-id="${id}"><td>${id}</td><td>${count}</td></tr>`).join('') 
+        : '<tr><td colspan="2">无数据</td></tr>';
+
+    // 为每一行添加点击事件监听器
+    productSummaryTableBody.querySelectorAll('tr').forEach(row => {
+        row.addEventListener('click', () => {
+            const productId = row.dataset.productId;
+            if (!productId) return;
+
+            // 移除其他行的选中状态
+            productSummaryTableBody.querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
+            
+            // 如果当前筛选的就是这个产品ID，则取消筛选
+            if (productIdInput.value === productId) {
+                productIdInput.value = '';
+            } else {
+                productIdInput.value = productId;
+                row.classList.add('selected');
+            }
+            
+            renderPage();
+        });
+    });
+}
+
+// 更新详细评论
+function filterAndDisplayReviewsForDate(targetDate) {
+    showLoading();
+    try {
+        const productIdFilter = productIdInput.value.trim();
+        const topReviewsOnly = topReviewsOnlyCheckbox.checked;
+
+        const reviewsForDate = allData
+            .filter(item => {
+                const itemDate = moment(item.date);
+                const productMatch = !productIdFilter || item.productId.includes(productIdFilter);
+                return itemDate.isSame(targetDate, 'day') && productMatch;
+            })
+            .flatMap(item => item.reviews.map(review => ({...review, productId: item.productId, itemName: item.itemName})));
+
+        const reviewsToRender = topReviewsOnly
+            ? reviewsForDate.filter(r => r.reviewerRank && r.reviewerRank.trim() !== '')
+            : reviewsForDate;
+
+        updateDetailedReviews(reviewsToRender);
+
+        // 显示筛选状态
+        filterStatusDisplay.innerHTML = `[正在显示 ${targetDate.format('YYYY-MM-DD')} 的评论 <button id="clear-date-filter">x</button>]`;
+        document.getElementById('clear-date-filter').addEventListener('click', () => {
+            renderPage();
+        });
+
+    } catch (error) {
+        console.error('Error in filterAndDisplayReviewsForDate:', error);
+    } finally {
+        hideLoading();
+    }
 }
 
 // 更新详细评论

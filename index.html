@@ -15,31 +15,34 @@
 </head>
 <body>
     <div class="container">
-        <h1>Coupang 评论分析系统 v1.1</h1>
+        <h1>Coupang 评论分析系统 v1.3</h1>
         
         <div class="file-upload">
             <input type="file" id="csvFileInput" accept=".csv" multiple>
             <button id="csvUploadBtn" class="upload-btn">选择CSV文件</button>
         </div>
-        
-        <div class="filters">
-                <div class="filter-group">
-                    <label for="productId">产品ID:</label>
-                    <input type="text" id="productId" placeholder="输入产品ID筛选">
-                </div>
-                <div class="filter-group">
-                    <input type="checkbox" id="topReviewsOnly" style="margin-right: 5px;">
-                    <label for="topReviewsOnly">只显示TOP评论</label>
-                </div>
-                <div class="filter-group">
+
+        <div id="initial-state">
+            <h2>欢迎使用评论分析系统</h2>
+            <p>请点击上方的“选择CSV文件”按钮，开始您的评论分析之旅。</p>
+        </div>
+
+        <div id="main-app-content" class="hidden">
+            <div class="filters">
+            <div class="filter-group">
+                <label for="productId">产品ID:</label>
+                <input type="text" id="productId" placeholder="输入产品ID筛选">
+            </div>
+            <div class="filter-group">
+                <label for="topReviewsOnly">只显示TOP评论</label>
+                <label class="switch">
+                    <input type="checkbox" id="topReviewsOnly">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="filter-group date-filter-group">
                 <label for="dateRange">日期范围:</label>
                 <input type="text" id="dateRange" class="date-picker" placeholder="选择日期范围">
-                <div class="quick-date-filters">
-                    <button data-days="3">近3天</button>
-                    <button data-days="7">近7天</button>
-                    <button data-days="15">近15天</button>
-                    <button data-days="30">近30天</button>
-                </div>
             </div>
         </div>
 
@@ -72,7 +75,7 @@
             
             <div class="reviews-section">
                 <div class="reviews-header">
-                    <h2>评论详情</h2>
+                    <h2>评论详情 <span id="filter-status-display"></span></h2>
                     <span id="review-count-display"></span>
                 </div>
                 <div class="reviews-container">
@@ -81,6 +84,7 @@
             </div>
         </div>
     </div>
+</div>
 
     <div id="instruction-tooltip" class="instruction-tooltip">
         <h2>使用说明</h2>
