@@ -7,6 +7,7 @@ let flatpickrInstance = null;
 
 // 获取 DOM 元素
 const loadingOverlay = document.getElementById('loading-overlay');
+const loadingText = document.getElementById('loading-text');
 const mainContent = document.querySelector('.main-content');
 const productIdInput = document.getElementById('productId');
 const topReviewsOnlyCheckbox = document.getElementById('topReviewsOnly');
@@ -21,12 +22,14 @@ const initialStateDiv = document.getElementById('initial-state');
 const mainAppContentDiv = document.getElementById('main-app-content');
 
 // 显示加载指示器
-function showLoading() {
+function showLoading(message = '') {
+    if (loadingText) loadingText.textContent = message;
     if (loadingOverlay) loadingOverlay.classList.add('show');
 }
 
 // 隐藏加载指示器
 function hideLoading() {
+    if (loadingText) loadingText.textContent = '';
     if (loadingOverlay) loadingOverlay.classList.remove('show');
 }
 
@@ -50,7 +53,7 @@ async function parseCSV(file) {
 
 // 处理文件选择
 async function handleFileSelect(event) {
-    showLoading();
+    showLoading('开始处理文件...');
     try {
         const files = event.target.files;
         let allRawReviews = [];
@@ -65,7 +68,8 @@ async function handleFileSelect(event) {
             .filter(f => f.date && f.date.isValid())
             .sort((a, b) => a.date.diff(b.date));
 
-        for (const { file, date } of datedFiles) {
+        for (const [index, { file, date }] of datedFiles.entries()) {
+            showLoading(`正在处理文件 ${index + 1} / ${datedFiles.length}: ${file.name}`);
             const parsedData = await parseCSV(file);
             
             // 1. 计算快照数据
