@@ -45,7 +45,17 @@ try {
         console.warn('警告：在 index.html 中未找到 script.js 的脚本标签。');
     }
 
-    // 5. 写入最终的 HTML 文件
+    // 5. 注入构建时间戳
+    const buildTimestamp = new Date().toUTCString();
+    const timestampPlaceholder = /<!-- BUILD_TIMESTAMP -->/;
+    if (timestampPlaceholder.test(htmlContent)) {
+        htmlContent = htmlContent.replace(timestampPlaceholder, `Last updated on ${buildTimestamp}`);
+        console.log(`构建时间戳已注入: ${buildTimestamp}`);
+    } else {
+        console.warn('警告：在 index.html 中未找到构建时间戳的占位符。');
+    }
+
+    // 6. 写入最终的 HTML 文件
     fs.writeFileSync(OUTPUT_FILE, htmlContent, 'utf8');
     console.log(`构建成功！整合后的文件已保存到 ${OUTPUT_FILE}`);
 
