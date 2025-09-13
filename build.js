@@ -46,10 +46,10 @@ try {
     }
 
     // 5. 注入构建时间戳
-    const buildTimestamp = new Date().toUTCString();
+    const buildTimestamp = new Date().toLocaleString('sv-SE', { timeZone: 'Asia/Shanghai' });
     const timestampPlaceholder = /<!-- BUILD_TIMESTAMP -->/;
     if (timestampPlaceholder.test(htmlContent)) {
-        htmlContent = htmlContent.replace(timestampPlaceholder, `Last updated on ${buildTimestamp}`);
+        htmlContent = htmlContent.replace(timestampPlaceholder, `构建于 ${buildTimestamp}`);
         console.log(`构建时间戳已注入: ${buildTimestamp}`);
     } else {
         console.warn('警告：在 index.html 中未找到构建时间戳的占位符。');

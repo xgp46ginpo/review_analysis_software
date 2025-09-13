@@ -22,6 +22,15 @@
     <div class="container">
         <h1>Coupang 评论分析系统 v1.4</h1>
         
+        <div class="instructions">
+            <h2>使用说明</h2>
+            <ul>
+                <li>选择日期范围或点击快速筛选按钮，查看评论趋势和详情。</li>
+                <li>输入产品ID可筛选特定产品评论。</li>
+                <li>评论按日期倒序排列，最新评论在前。</li>
+            </ul>
+        </div>
+
         <div class="file-upload">
             <input type="file" id="csvFileInput" accept=".csv" multiple>
             <button id="csvUploadBtn" class="upload-btn">选择CSV文件</button>
@@ -90,13 +99,6 @@
         </div>
     </div>
 </div>
-
-    <div id="instruction-tooltip" class="instruction-tooltip">
-        <h2>使用说明</h2>
-        <p>1. 选择日期范围或点击快速筛选按钮，查看评论趋势和详情。</p>
-        <p>2. 输入产品ID可筛选特定产品评论。</p>
-        <p>3. 评论按日期倒序排列，最新评论在前。</p>
-    </div>
 
     <div id="loading-overlay" class="loading-overlay">
         <div class="spinner"></div>
