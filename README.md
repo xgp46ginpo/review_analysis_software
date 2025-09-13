@@ -1,5 +1,7 @@
 # Coupang 评论分析工具 v1.4
 
+**👉 [在线访问地址](https://xgp46ginpo.github.io/review_analysis_software/) 👈**
+
 这是一个纯前端的 Web 应用，旨在帮助用户快速、直观地分析从 Coupang 平台抓取的商品评论数据。用户只需在本地浏览器中打开应用，上传包含评论数据的 CSV 文件，即可查看评论数量的变化趋势、筛选特定商品，并浏览评论详情。
 
 ---
@@ -12,7 +14,6 @@
 - [🚀 如何开始](#-如何开始)
 - [📂 项目结构](#-项目结构)
 - [⚠️ AI 辅助生成声明](#️-ai-辅助生成声明)
-- [📦 发布到 GitHub](#-发布到-github)
 - [📄 许可证](#-许可证)
 
 ---
@@ -97,42 +98,6 @@
 
 - **建议谨慎使用**: AI 生成的代码可能存在潜在的 Bug、性能问题或不符合最佳实践的情况。在用于生产环境之前，建议进行全面的代码审查和测试。
 - **责任**: 项目维护者不对因使用 AI 生成的代码而导致的任何问题或损失负责。
-
----
-
-## 📦 发布到 GitHub
-
-<details>
-<summary>点击展开/折叠发布步骤</summary>
-
-如果您想将这个项目发布到您自己的 GitHub 仓库，可以按照以下步骤操作：
-
-1.  **在 GitHub 上创建一个新的空仓库**。
-    （例如，您可以将其命名为 `review-analysis-software`）
-
-2.  **初始化本地 Git 仓库**:
-    在您的项目根目录下打开终端或命令行工具，然后运行以下命令：
-    ```bash
-    git init
-    git add .
-    git commit -m "Initial commit"
-    ```
-
-3.  **关联远程仓库**:
-    将 `<Your-Username>` 和 `<Your-Repository-Name>` 替换为您自己的 GitHub 用户名和仓库名。
-    ```bash
-    git remote add origin https://github.com/<Your-Username>/<Your-Repository-Name>.git
-    git branch -M main
-    ```
-
-4.  **推送代码**:
-    ```bash
-    git push -u origin main
-    ```
-
-> **注意**: 项目中的 `.gitignore` 文件已配置为忽略 `评论抓取csv/` 目录，因此该目录下的任何 CSV 文件都不会被上传到您的 GitHub 仓库中。
-
-</details>
 
 ---
 

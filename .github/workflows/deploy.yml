@@ -1,0 +1,28 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # 只在 main 分支被推送时触发
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # 使用最新的 Ubuntu 运行环境
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3 # 第一步：检出你的代码
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3 # 第二步：设置 Node.js 环境
+        with:
+          node-version: '18' # 使用 Node.js 18
+
+      - name: Build project
+        run: node build.js # 第三步：运行我们的构建脚本
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3 # 第四步：部署到 gh-pages 分支
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # 指定要发布的目录（我们构建产物所在的目录）
