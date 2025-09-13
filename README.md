@@ -81,13 +81,18 @@
 
 ```
 .
-├── 评论抓取csv/         # 存储原始的 Coupang 评论 CSV 文件
-│   ├── coupang_reviews_YYYYMMDD.csv
+├── .github/
+│   └── workflows/
+│       └── deploy.yml      # GitHub Actions 自动化部署工作流
+├── src/                    # 存放所有源代码
+│   ├── index.html          # 应用主页面
+│   ├── script.js           # 核心逻辑与数据处理脚本
+│   └── style.css           # 页面样式表
+├── 评论抓取csv/           # 存储原始的 Coupang 评论 CSV 文件
 │   └── ...
-├── index.html            # 应用主页面
-├── script.js             # 核心逻辑与数据处理脚本
-├── style.css             # 页面样式表
-└── README.md             # 本说明文件
+├── .gitignore              # 定义 Git 忽略规则
+├── build.js                # Node.js 构建脚本，用于整合文件
+└── README.md               # 本说明文件
 ```
 
 ---

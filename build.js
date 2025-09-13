@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // 定义源文件和目标路径
-const SRC_DIR = __dirname;
+const SRC_DIR = path.join(__dirname, 'src');
 const DIST_DIR = path.join(__dirname, 'dist');
 const HTML_FILE = path.join(SRC_DIR, 'index.html');
 const CSS_FILE = path.join(SRC_DIR, 'style.css');
